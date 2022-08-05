@@ -7,27 +7,25 @@ import (
 	"github.com/mnlprz/go/repositorio/services"
 )
 
-func setHandlersTabla() {
+func setHandlersTablaOfertas(w http.ResponseWriter, req *http.Request) {
 
-	http.HandleFunc("/cargatablaofertas", func(w http.ResponseWriter, req *http.Request) {
-		err := services.CargaTablaOfertas()
-		if err != nil {
-			log.Fatal(err)
-		}
-		_, err = w.Write([]byte("Tabla OFERTAS cargada exitosamente."))
-		if err != nil {
-			log.Fatal(err)
-		}
-	})
+	err := services.CargaTablaOfertas()
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = w.Write([]byte("Tabla OFERTAS cargada exitosamente."))
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
-	http.HandleFunc("/cargatablacontratos", func(w http.ResponseWriter, req *http.Request) {
-		err := services.CargaTablaContratos()
-		if err != nil {
-			log.Fatal(err)
-		}
-		_, err = w.Write([]byte("Tabla CONTRATOS cargada exitosamente."))
-		if err != nil {
-			log.Fatal(err)
-		}
-	})
+func setHandlersTablaContratos(w http.ResponseWriter, req *http.Request) {
+	err := services.CargaTablaContratos()
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = w.Write([]byte("Tabla CONTRATOS cargada exitosamente."))
+	if err != nil {
+		log.Fatal(err)
+	}
 }

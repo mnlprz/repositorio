@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	const PORT = ":5556"
+	const PORT = ":5555"
 
 	handlers.SetHandlers()
 
