@@ -1,1 +1,2 @@
-drop table "contratos"
+drop table "contratos";
+drop table "ofertas";
