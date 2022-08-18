@@ -14,19 +14,11 @@ func SetHandlers() {
 		setHandlersTablaContratos(w, req)
 	})
 
-	http.HandleFunc("/entrada/{id}", func(w http.ResponseWriter, req *http.Request) {
-		handlerEntradaID(w, req)
-	})
-
-	http.HandleFunc("/getentradas/{campo1}", func(w http.ResponseWriter, req *http.Request) {
-		handlerGetEntradasID(w, req)
-	})
-
-	http.HandleFunc("/getcontratos/{nup}", func(w http.ResponseWriter, req *http.Request) {
+	http.HandleFunc("/contrato/{contrato}", func(w http.ResponseWriter, req *http.Request) {
 		setHandlersContrato(w, req)
 	})
 
-	http.HandleFunc("/contrato/{id}", func(w http.ResponseWriter, req *http.Request) {
-		setHandlersContratoID(w, req)
+	http.HandleFunc("/contratos/{nup}", func(w http.ResponseWriter, req *http.Request) {
+		setHandlersContratos(w, req)
 	})
 }

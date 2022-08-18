@@ -12,39 +12,31 @@ import (
 
 func setHandlersContrato(w http.ResponseWriter, req *http.Request) {
 
-	nup := req.URL.Query().Get("nup")
-	contratos, err := services.GetContratos(nup)
-	if err != nil {
-		log.Fatal(err)
-	}
-	contratosJson, err := json.Marshal(contratos)
-	if err != nil {
-		log.Fatal(err)
-	}
-	_, err = w.Write(contratosJson)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-func setHandlersContratoID(w http.ResponseWriter, req *http.Request) {
-
 	switch req.Method {
 
 	case "GET":
-		id := req.URL.Query().Get("id")
-		contratos, err := services.GetContratos(id)
+
+		var contrato models.Contrato
+		err := json.NewDecoder(req.Body).Decode(&contrato)
 		if err != nil {
 			log.Fatal(err)
 		}
-		contratosJson, err := json.Marshal(contratos)
+		data := url.Values{}
+		data.Add("id", string(rune(contrato.Id)))
+
+		contratos, err := services.GetContrato(contrato.Id)
 		if err != nil {
 			log.Fatal(err)
 		}
-		_, err = w.Write(contratosJson)
+		contratoJson, err := json.Marshal(contratos)
 		if err != nil {
 			log.Fatal(err)
 		}
+		_, err = w.Write(contratoJson)
+		if err != nil {
+			log.Fatal(err)
+		}
+
 	case "POST":
 
 		var contrato models.Contrato
@@ -66,5 +58,33 @@ func setHandlersContratoID(w http.ResponseWriter, req *http.Request) {
 			log.Fatal(err)
 		}
 	}
+}
 
+func setHandlersContratos(w http.ResponseWriter, req *http.Request) {
+
+	switch req.Method {
+
+	case "GET":
+
+		var contrato models.Contrato
+		err := json.NewDecoder(req.Body).Decode(&contrato)
+		if err != nil {
+			log.Fatal(err)
+		}
+		data := url.Values{}
+		data.Add("nup", contrato.Nup)
+
+		contratos, err := services.GetContratos(contrato.Nup)
+		if err != nil {
+			log.Fatal(err)
+		}
+		contratosJson, err := json.Marshal(contratos)
+		if err != nil {
+			log.Fatal(err)
+		}
+		_, err = w.Write(contratosJson)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 }

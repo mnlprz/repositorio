@@ -11,7 +11,7 @@
 36527,CUOTA_0_CON_MANTENIMIENTO    ,            ,                    , ,0,20220729
 38556,CUOTA_0                      ,            ,                    , ,0,20220729
 39441,TRAD_QUICK ,MARCELO FABIAN                ,AIASSA              ,6,1,20220729
-43085,TRADICIONAL_LOW              ,            ,                    , ,0,20220729
+43085,TRADICIONAL_LOW              , XX         ,                    ,X,0,20220729
 44618,CUOTA_0                      ,            ,                    , ,0,20220729
 46519,TRADICIONAL                  ,            ,                    , ,0,20220729
 46593,CUOTA_0_URGENT               ,            ,                    , ,0,20220729
@@ -93,7 +93,7 @@
 217731,TRADICIONAL_RARELY           ,            ,                    , ,0,20220729
 218243,TRAD_QUICK ,ANTONIO SEBASTIAN             ,BAREIRO ACEVEDO     ,1,1,20220729
 218531,MANTENIMIEN,SANTIAGO MIGUEL               ,BARRENECHEA         ,1,1,20220729
-222161,TRADICIONAL_RARELY           ,            ,                    , ,0,20220729
+222161,TRADICIONAL_RARELY           ,            ,                    ,,0,20220729
 223354,TRAD_QUICK ,JOSE RAMON                    ,BARRIONUEVO         ,1,1,20220729
 225276,TRAD_QUICK ,LEONARDO MARTIN               ,BARRIOS             ,1,1,20220729
 225429,PRENDARIO_UVA                ,            ,                    , ,0,20220729

@@ -12,7 +12,7 @@ import (
 
 func CargaTablaContratos() error {
 
-	const QUERY_PERSONAS = "INSERT INTO contratos (nup, cod_entidad, cod_centro, num_contrato, cod_prod, cod_subprod, moneda, saldo, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW(), NOW())"
+	const QUERY_CONTRATOS = "INSERT INTO contratos (nup, cod_entidad, cod_centro, num_contrato, cod_prod, cod_subprod, moneda, saldo, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW(), NOW())"
 
 	db, err := database.GetConnection()
 	if err != nil {
@@ -35,7 +35,7 @@ func CargaTablaContratos() error {
 			log.Fatal(err)
 		}
 
-		persona := models.Contrato{
+		contrato := models.Contrato{
 			Nup:         rec[0],
 			CodEntidad:  rec[1],
 			CodCentro:   rec[2],
@@ -45,11 +45,20 @@ func CargaTablaContratos() error {
 			Moneda:      rec[6],
 			Saldo:       rec[7],
 		}
-		_, err = db.Exec(QUERY_PERSONAS, persona.Nup, persona.CodEntidad, persona.CodCentro, persona.NumContrato, persona.CodProd, persona.CodSubProd, persona.Moneda, persona.Saldo)
+
+		err = contrato.Validate()
+
 		if err != nil {
-			log.Fatal(err)
+			log.Println("Contrato: ", contrato, "con error: ", err)
+
+		} else {
+			_, err = db.Exec(QUERY_CONTRATOS, contrato.Nup, contrato.CodEntidad, contrato.CodCentro, contrato.NumContrato, contrato.CodProd, contrato.CodSubProd, contrato.Moneda, contrato.Saldo)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 	}
+
 	log.Println("Tabla C O N T R A T O S cargada exitosamente...")
 	return nil
 }
@@ -88,9 +97,16 @@ func CargaTablaOfertas() error {
 			Digital:    rec[5],
 			Fecha:      rec[6],
 		}
-		_, err = db.Exec(QUERY_OFERTAS, oferta.NumPersona, oferta.Oferta, oferta.Nombre, oferta.Apellido, oferta.SitIva, oferta.Digital, oferta.Fecha)
+
+		err = oferta.Validate()
+
 		if err != nil {
-			log.Fatal(err)
+			log.Println("Oferta: ", oferta, "con error: ", err)
+		} else {
+			_, err = db.Exec(QUERY_OFERTAS, oferta.NumPersona, oferta.Oferta, oferta.Nombre, oferta.Apellido, oferta.SitIva, oferta.Digital, oferta.Fecha)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 	}
 	log.Println("Tabla O F E R T A S cargada exitosamente...")
