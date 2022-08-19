@@ -3,7 +3,6 @@ package services
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -25,7 +24,7 @@ func GetContrato(id int64) (models.Contrato, error) {
 
 	r := db.QueryRow(query, id).Scan(&contrato.Id, &contrato.Nup, &contrato.CodEntidad, &contrato.CodCentro, &contrato.NumContrato, &contrato.CodProd, &contrato.CodSubProd, &contrato.Moneda, &contrato.Saldo, &contrato.CreatedAt, &contrato.UpdatedAt)
 	if r == sql.ErrNoRows {
-		return contrato, errors.New("No se encontro ID")
+		return contrato, errors.New("no se encontro id")
 	}
 	return contrato, nil
 }
@@ -65,10 +64,51 @@ func GetContratos(nup string) ([]models.Contrato, error) {
 func PostContrato(data url.Values) error {
 
 	const URL = "http://localhost:5556/postcontrato/"
-	res, err := http.PostForm(URL, data)
+	_, err := http.PostForm(URL, data)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(res)
+	return nil
+}
+
+func PutContrato(contrato models.Contrato) error {
+
+	const query = "UPDATE contratos SET NUP = $1, COD_ENTIDAD = $2, COD_CENTRO = $3, NUM_CONTRATO = $4, COD_PROD = $5, COD_SUBPROD = $6, MONEDA = $7, SALDO = $8 WHERE ID = $9"
+
+	db, err := database.GetConnection()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	r, err := db.Exec(query, contrato.Nup, contrato.CodEntidad, contrato.CodCentro, contrato.NumContrato, contrato.CodProd, contrato.CodSubProd, contrato.Moneda, contrato.Saldo, contrato.Id)
+	if err != nil {
+		log.Fatal(err)
+	}
+	n, _ := r.RowsAffected()
+	if n == 0 {
+		return errors.New("no se encontro el id a modificar")
+	}
+	return nil
+}
+
+func DeleteContrato(id int64) error {
+
+	const query = "DELETE FROM contratos WHERE ID = $1"
+
+	db, err := database.GetConnection()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	r, err := db.Exec(query, id)
+	if err != nil {
+		log.Fatal(err)
+	}
+	n, _ := r.RowsAffected()
+	if n == 0 {
+		return errors.New("no se encontro el id a eliminar")
+	}
 	return nil
 }

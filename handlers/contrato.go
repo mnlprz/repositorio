@@ -57,6 +57,40 @@ func setHandlersContrato(w http.ResponseWriter, req *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
+
+	case "PUT":
+
+		var contrato models.Contrato
+		err := json.NewDecoder(req.Body).Decode(&contrato)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = services.PutContrato(contrato)
+		if err != nil {
+			log.Fatal(err)
+		}
+		_, err = w.Write([]byte("contrato modificado correctamente"))
+		if err != nil {
+			log.Fatal(err)
+		}
+
+	case "DELETE":
+
+		var contrato models.Contrato
+		err := json.NewDecoder(req.Body).Decode(&contrato)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = services.DeleteContrato(contrato.Id)
+		if err != nil {
+			log.Fatal(err)
+		}
+		_, err = w.Write([]byte("contrato eliminado correctamente"))
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }
 
